@@ -1,119 +1,53 @@
+{% extends "base.html" %}
 {% load staticfiles %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Mapcrafter - High Performance Minecraft Map Renderer">
-    <meta name="author" content="Moritz Hilscher (m0r13)">
-    <!--<link rel="shortcut icon" href="{% static "assets/ico/favicon.png" %}">-->
 
-    <title>Mapcrafter - High Performance Minecraft Map Renderer</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="{% static "dist/css/bootstrap.css" %}" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="{% static "style.css" %}" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="{% static "assets/js/html5shiv.js" %}"></script>
-      <script src="{% static "assets/js/respond.min.js" %}"></script>
-    <![endif]-->
-
-    <!-- Piwik -->
-    <script type="text/javascript">
-      var _paq = _paq || [];
-      _paq.push(["trackPageView"]);
-      _paq.push(["enableLinkTracking"]);
-
-      (function() {
-        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://piwik.yellow-ray.org/";
-        _paq.push(["setTrackerUrl", u+"piwik.php"]);
-        _paq.push(["setSiteId", "3"]);
-        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
-        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
-      })();
-    </script>
-    <!-- End Piwik Code -->
-  </head>
-
-  <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Mapcrafter</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="https://github.com/mapcrafter/mapcrafter">GitHub</a></li>
-            <li><a href="http://docs.mapcrafter.org">Documentation</a></li>
-            <li><a href="http://exmaple.mapcrafter.org">Exmaple</a></li>
-          </ul>
-        </div>
+{% block content %}
+<div class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <p><br /><br /></p>
+        <h2>Welcome!</h2>
+        <p>Mapcrafter is a high performance Minecraft map renderer written in C++ which renders your Minecraft worlds to fancy maps viewable in any webbrowser.</p>
+        <p><a class="btn btn-primary btn-lg" href="http://docs.mapcrafter.org/builds/stable/installation.html">Get Mapcrafter &raquo;</a></p>
+        <p><br /></p>
+      </div>
+      <div class="col-lg-6">
+        <p><center><img src="{% static "mapcrafter_example.png" %}" class="img-thumbnail img-responsive"/></center></p>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="jumbotron">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6">
-            <p><br /><br /></p>
-            <h2>Welcome!</h2>
-            <p>Mapcrafter is a high performance Minecraft map renderer written in C++ which renders your Minecraft worlds to fancy maps viewable in any webbrowser.</p>
-            <p><a class="btn btn-primary btn-lg" href="http://docs.mapcrafter.org/builds/stable/installation.html">Get Mapcrafter &raquo;</a></p>
-            <p><br /></p>
-          </div>
-          <div class="col-lg-6">
-            <p><center><img src="{% static "mapcrafter_example.png" %}" class="img-thumbnail img-responsive"/></center></p>
-          </div>
-        </div>
-      </div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4">
+      <h3>GitHub</h3>
+      <p>Access the source code, report new issues and comment on them.</p>
+      <p><a class="btn btn-default" href="https://github.com/mapcrafter/mapcrafter">Go to GitHub &raquo;</a></p>
     </div>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-4">
-          <h3>GitHub</h3>
-          <p>Access the source code, report new issues and comment on them.</p>
-          <p><a class="btn btn-default" href="https://github.com/mapcrafter/mapcrafter">Go to GitHub &raquo;</a></p>
-        </div>
-        <div class="col-lg-4">
-          <h3>Documentation</h3>
-          <p>Read the documentation and learn how to use the renderer.</p>
-          <p><a class="btn btn-default" href="http://docs.mapcrafter.org">Go to documentation &raquo;</a></p>
-       </div>
-        <div class="col-lg-4">
-          <h3>ExMaple</h3>
-          <p>A rendered example map with most blocks available in Minecraft.</p>
-          <p><a class="btn btn-default" href="http://exmaple.mapcrafter.org">Go to ExMaple &raquo;</a></p>
-        </div>
-      </div>
-
-      <hr>
-
-      <footer>
-        <center>
-          <p>
-            <iframe src="http://ghbtns.com/github-btn.html?user=mapcrafter&repo=mapcrafter&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
-            <iframe src="http://ghbtns.com/github-btn.html?user=mapcrafter&repo=mapcrafter&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
-            <script id='fbon78s'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=m0r13&button=compact&url=http%3A%2F%2Fmapcrafter.org';f.title='Flattr';f.height=20;f.width=110;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fbon78s');</script>
-          </p>
-        </center>
-      </footer>
+    <div class="col-lg-4">
+      <h3>Documentation</h3>
+      <p>Read the documentation and learn how to use the renderer.</p>
+      <p><a class="btn btn-default" href="http://docs.mapcrafter.org">Go to documentation &raquo;</a></p>
+   </div>
+    <div class="col-lg-4">
+      <h3>ExMaple</h3>
+      <p>A rendered example map with most blocks available in Minecraft.</p>
+      <p><a class="btn btn-default" href="http://exmaple.mapcrafter.org">Go to ExMaple &raquo;</a></p>
     </div>
+  </div>
 
+  <hr>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{% static "assets/js/jquery.js" %}"></script>
-    <script src="{% static "dist/js/bootstrap.min.js" %}"></script>
-  </body>
-</html>
+  <footer>
+    <center>
+      <p>
+        <iframe src="http://ghbtns.com/github-btn.html?user=mapcrafter&repo=mapcrafter&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=mapcrafter&repo=mapcrafter&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <script id='fbon78s'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=m0r13&button=compact&url=http%3A%2F%2Fmapcrafter.org';f.title='Flattr';f.height=20;f.width=110;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fbon78s');</script>
+      </p>
+    </center>
+  </footer>
+</div>
+{% endblock %}

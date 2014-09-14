@@ -1,0 +1,71 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mapcrafter - High Performance Minecraft Map Renderer">
+    <meta name="author" content="Moritz Hilscher (m0r13)">
+    <!--<link rel="shortcut icon" href="{% static "assets/ico/favicon.png" %}">-->
+
+    <title>{% block title %}Mapcrafter - High Performance Minecraft Map Renderer{% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static "dist/css/bootstrap.css" %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static "style.css" %}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="{% static "assets/js/html5shiv.js" %}"></script>
+      <script src="{% static "assets/js/respond.min.js" %}"></script>
+    <![endif]-->
+
+    <!-- Piwik -->
+    <script type="text/javascript">
+      var _paq = _paq || [];
+      _paq.push(["trackPageView"]);
+      _paq.push(["enableLinkTracking"]);
+
+      (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://piwik.yellow-ray.org/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "3"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <!-- End Piwik Code -->
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Mapcrafter</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="https://github.com/mapcrafter/mapcrafter">GitHub</a></li>
+            <li><a href="http://docs.mapcrafter.org">Documentation</a></li>
+            <li><a href="http://exmaple.mapcrafter.org">Exmaple</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    {% block content %}{% endblock %}
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static "assets/js/jquery.js" %}"></script>
+    <script src="{% static "dist/js/bootstrap.min.js" %}"></script>
+  </body>
+</html>
