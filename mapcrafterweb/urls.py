@@ -7,4 +7,5 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r"^(|index\.html)$", views.index, name="index"),
+    url(r"^downloads$", views.downloads, name="downloads"),
 )
