@@ -4,27 +4,18 @@
 {% block content %}
 
 <div class="container">
-  <h1>Downloads</h1>
-  <!--
-  <table class="table">
-    <tr>
-      <th>Version</th>
-      <th>Build date</th>
-      <th>Download</th>
-      <th>Type</th>
-      <th>Arch</th>
-    </tr>
-    {% for package in packages %}
-    <tr>
-      <td>{{ package.version }}</td>
-      <td>{{ package.date }}</td>
-      <td><a href="{{ package.url }}">{{ package.filename }}</a></td>
-      <td>{{ package.type.verbose_name }}</td>
-      <td>{{ package.arch_name }}</td>
-    </tr>
-    {% endfor %}
-  </table>
-  -->
+  <div class="page-header">
+    <h1>Downloads</h1>
+  </div>
+  <p>
+    You can find builds of the Mapcrafter project here.
+  </p>
+  <p>
+    If you are going to use a Debian package, please consider using the
+    <a href="http://docs.mapcrafter.org/builds/stable/installation.html#debian-packages">Debian package repository</a>
+    directly.
+  </p>
+  <h3>Builds</h3>
   
   <table class="table">
     <tr>
