@@ -5,6 +5,7 @@
 
 <div class="container">
   <h1>Downloads</h1>
+  <!--
   <table class="table">
     <tr>
       <th>Version</th>
@@ -15,12 +16,36 @@
     </tr>
     {% for package in packages %}
     <tr>
-      <td>{{ package.version }}</th>
-      <td>{{ package.date }}</th>
-      <td><a href="{{ package.url }}">{{ package.filename }}</a></th>
-      <td>{{ package.type.verbose_name }}</th>
-      <td>{{ package.arch_name }}</th>
+      <td>{{ package.version }}</td>
+      <td>{{ package.date }}</td>
+      <td><a href="{{ package.url }}">{{ package.filename }}</a></td>
+      <td>{{ package.type.verbose_name }}</td>
+      <td>{{ package.arch_name }}</td>
     </tr>
+    {% endfor %}
+  </table>
+  -->
+  
+  <table class="table">
+    <tr>
+      <th>Version</th>
+      <th>Build date</th>
+      <th>Download</th>
+      <th>Type</th>
+      <th>Arch</th>
+    </tr>
+    {% for group in group_win %}
+    {% for package in group.packages %}
+    <tr>
+      {% if forloop.first %}
+      <th rowspan="{{ group.packages|length }}" style="vertical-align: middle">{{ group.version }}</th>
+      {% endif %}
+      <td>{{ package.date }}</td>
+      <td><a href="{{ package.url }}">{{ package.filename }}</a></td>
+      <td>{{ package.type.verbose_name }}</td>
+      <td>{{ package.arch_name }}</td>
+    </tr>
+    {% endfor %}
     {% endfor %}
   </table>
 </div>

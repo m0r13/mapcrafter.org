@@ -63,4 +63,4 @@ class Package(Model):
         return self.url.split("/")[-1]
     
     def __unicode__(self):
-        return "Build %s %s%s" % (self.date, self.type, self.arch)
+        return "Build v.%s %s%s" % (self.version, self.type, self.arch)
