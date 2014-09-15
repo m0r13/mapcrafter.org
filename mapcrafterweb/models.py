@@ -2,6 +2,9 @@ from django.db.models.base import Model
 from django.db.models.fields import CharField, DateTimeField, IntegerField
 from django.utils import timezone
 from django.db.models.fields.related import ForeignKey
+import re
+
+REGEX_VERSION = re.compile("(?P<major>\d)\.(?P<minor>\d)(\.(?P<build>\d))?(-(?P<commit>\d+))?")
 
 class PackageType(Model):
     class Meta:
@@ -47,14 +50,30 @@ class Package(Model):
             return "64 Bit"
         return "Unknown architecture"
     
-    @property
-    def version(self):
+    def get_version(self):
         version = "%d.%d" % (self.version_major, self.version_minor)
         if self.version_build != 0:
             version += ".%s" % self.version_build
         if self.version_commit != 0:
             version += "-%d" % self.version_commit 
         return version
+    
+    def set_version(self, value):
+        match = REGEX_VERSION.match(value)
+        if match is None:
+            raise ValueError(value)
+        self.version_major = int(match.group("major"))
+        self.version_minor = int(match.group("minor"))
+        if match.group("build"):
+            self.version_build = int(match.group("build"))
+        else:
+            self.version_build = 0
+        if match.group("commit"):
+            self.version_commit = int(match.group("commit"))
+        else:
+            self.version_commit = 0
+    
+    version = property(get_version, set_version)
     
     @property
     def filename(self):
