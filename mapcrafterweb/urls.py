@@ -7,7 +7,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'mapcrafterweb.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r"^$", RedirectView.as_view(url="index")),
+    url(r"^(|index.html)$", RedirectView.as_view(url="index")),
     url(r"^index$", views.index, name="index"),
     url(r"^downloads", views.downloads, name="downloads"),
 )
