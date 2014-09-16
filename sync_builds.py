@@ -4,11 +4,10 @@ import os
 import re
 import sys
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mapcrafterweb_site.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mapcrafterweb_site.settings_dev")
 import django
 django.setup()
 
-from django.utils import timezone
 from mapcrafterweb.models import Package, PackageType
 
 REGEX_VERSION = "(?P<version>\d\.\d(\.\d)?(-\d+)?)"
@@ -26,7 +25,7 @@ if __name__ == "__main__":
     type_deb, _ = PackageType.objects.get_or_create(name="deb")
     packages = []
 
-    for filename in os.listdir(os.path.join(dist_dir, "deb", "packages")):
+    for filename in os.listdir(os.path.join(dist_dir, "debian", "packages")):
         match = REGEX_DEB_PACKAGE.match(filename)
         if match is None:
             print "Warning: Unknown package '%s'." % filename
