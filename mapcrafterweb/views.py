@@ -3,7 +3,7 @@ from mapcrafterweb.models import Package
 
 # Create your views here.
 
-def index(request, _):
+def index(request):
     return render(request, "index.html")
 
 def get_packages(package_type=None):

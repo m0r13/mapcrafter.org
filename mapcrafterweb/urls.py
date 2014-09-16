@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, url
+from django.views.generic.base import RedirectView
 import views
 
 urlpatterns = patterns('',
@@ -6,6 +7,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'mapcrafterweb.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r"^(|index\.html)$", views.index, name="index"),
-    url(r"^downloads\.html$", views.downloads, name="downloads"),
+    url(r"^$", RedirectView.as_view(url="index")),
+    url(r"^index$", views.index, name="index"),
+    url(r"^downloads", views.downloads, name="downloads"),
 )
