@@ -1,11 +1,14 @@
 #!/usr/bin/env python2
 
+import datetime
+import pytz
 import os
 import re
 import sys
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mapcrafterweb_site.settings_dev")
 import django
+from django.utils import timezone
 django.setup()
 
 from mapcrafterweb.models import Package, PackageType
@@ -13,6 +16,12 @@ from mapcrafterweb.models import Package, PackageType
 REGEX_VERSION = "(?P<version>\d\.\d(\.\d)?(-\d+)?)"
 REGEX_DEB_PACKAGE = re.compile("mapcrafter_%s_(?P<arch>i386|amd64)\.deb" % REGEX_VERSION)
 REGEX_WIN_PACKAGE = re.compile("mapcrafter_%s_(?P<arch>win32|win64)\.zip" % REGEX_VERSION)
+
+
+def timestamp_to_datetime(timestamp):
+    local_tz = timezone.get_current_timezone()
+    utc_dt = datetime.datetime.utcfromtimestamp(timestamp).replace(tzinfo=pytz.utc)
+    return local_tz.normalize(utc_dt.astimezone(local_tz))
 
 if __name__ == "__main__":    
     if len(sys.argv) < 2:
@@ -34,9 +43,15 @@ if __name__ == "__main__":
         arch = Package.ARCH_32_BIT
         if match.group("arch") == "amd64":
             arch= Package.ARCH_64_BIT
+        
+        timestamp = os.stat(os.path.join(dist_dir, "debian", "packages", filename)).st_mtime
+        date = timestamp_to_datetime(timestamp)
+        
         package = Package()
         package.type = type_deb
         package.arch = arch
+        package.date = date
+        package.date = timestamp_to_datetime(timestamp)
         package.version = match.group("version")
         package.url = "//mapcrafter.org/debian/packages/%s" % filename
         packages.append(package)
@@ -48,11 +63,16 @@ if __name__ == "__main__":
             continue
         
         arch = Package.ARCH_32_BIT
-        if match.group("arch") == "amd64":
+        if match.group("arch") == "win64":
             arch= Package.ARCH_64_BIT
+        
+        timestamp = os.stat(os.path.join(dist_dir, "windows", filename)).st_mtime
+        date = timestamp_to_datetime(timestamp)
+        
         package = Package()
         package.type = type_win
         package.arch = arch
+        package.date = date
         package.version = match.group("version")
         package.url = "//mapcrafter.org/windows/%s" % filename
         packages.append(package)
