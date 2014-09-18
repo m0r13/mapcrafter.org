@@ -41,6 +41,7 @@ class Package(Model):
     version_build = IntegerField(verbose_name="version build")
     version_commit = IntegerField(verbose_name="version commit")
     url = CharField(max_length=255, verbose_name="url")
+    downloads = IntegerField(verbose_name="downloads")
     
     @property
     def arch_name(self):

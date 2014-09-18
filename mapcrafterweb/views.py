@@ -48,6 +48,7 @@ def downloads_json(request):
             "version" : package.version,
             "name" : package.filename,
             "url" : "http:" + package.url,
+            "downloads" : package.downloads,
         })
     response = HttpResponse(json.dumps(packages, sort_keys=True, indent=4, separators=(",", ": ")))
     response["Content-Type"] = "application/json"
