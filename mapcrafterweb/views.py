@@ -1,5 +1,7 @@
+from django.http.response import HttpResponse
 from django.shortcuts import render
 from mapcrafterweb.models import Package
+import json
 
 # Create your views here.
 
@@ -35,3 +37,18 @@ def downloads(request):
     context["packages"] = Package.objects.all()
     context["group_win"] = get_packages()
     return render(request, "downloads.html", context)
+
+def downloads_json(request):
+    packages = []
+    for package in Package.objects.all():
+        packages.append({
+            "type" : package.type.name,
+            "arch" : package.arch,
+            "date" : str(package.date),
+            "version" : package.version,
+            "name" : package.filename,
+            "url" : "http:" + package.url,
+        })
+    response = HttpResponse(json.dumps(packages, sort_keys=True, indent=4, separators=(",", ": ")))
+    response["Content-Type"] = "text/json"
+    return response
