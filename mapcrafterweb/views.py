@@ -50,5 +50,5 @@ def downloads_json(request):
             "url" : "http:" + package.url,
         })
     response = HttpResponse(json.dumps(packages, sort_keys=True, indent=4, separators=(",", ": ")))
-    response["Content-Type"] = "text/json"
+    response["Content-Type"] = "application/json"
     return response
