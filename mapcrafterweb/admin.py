@@ -11,7 +11,7 @@ def url(package):
     return mark_safe("<a href='%s'>%s</a>" % (package_url, package_url))
 
 class PackageAdmin(ModelAdmin):
-    list_display = ["type", "arch", "date", "version", url]
+    list_display = ["type", "arch", "date", "version", url, "downloads"]
 
 admin.site.register(PackageType, PackageTypeAdmin)
 admin.site.register(Package, PackageAdmin)
