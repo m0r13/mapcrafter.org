@@ -100,4 +100,4 @@ def api_update_package_downloads(request):
                 continue
         except Package.DoesNotExist:
             continue
-    return jsonify({"secret" : "supersecretsecret", "data" : [{"type" : "deb", "arch" : "32", "version" : "1.5.2", "downloads" : 42}]})
+    return JsonResponse({"secret" : "supersecretsecret", "data" : [{"type" : "deb", "arch" : "32", "version" : "1.5.2", "downloads" : 42}]})
