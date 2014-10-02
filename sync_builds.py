@@ -54,6 +54,7 @@ if __name__ == "__main__":
         package.date = timestamp_to_datetime(timestamp)
         package.version = match.group("version")
         package.url = "//mapcrafter.org/debian/packages/%s" % filename
+        package.downloads = 0
         packages.append(package)
     
     for filename in os.listdir(os.path.join(dist_dir, "windows")):
@@ -75,6 +76,7 @@ if __name__ == "__main__":
         package.date = date
         package.version = match.group("version")
         package.url = "//mapcrafter.org/windows/%s" % filename
+        package.downloads = 0
         packages.append(package)
     
     for package in packages:
