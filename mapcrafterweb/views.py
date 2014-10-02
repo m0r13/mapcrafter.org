@@ -39,15 +39,19 @@ def downloads(request):
     context["group_win"] = get_packages()
     return render(request, "downloads.html", context)
 
-def jsonify(data):
-    response = HttpResponse(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
-    response["Content-Type"] = "application/json"
-    return response
+class JsonResponse(HttpResponse):
+    def __init__(self, data):
+        super(JsonResponse, self).__init__(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
+        self["Content-Type"] = "application/json"
+
+class JsonErrorResponse(JsonResponse):
+    def __init__(self, error):
+        super(JsonErrorResponse, self).__init__({"status" : "error", "error" : error})
 
 def api_get_packages(request):
     secret = getattr(settings, "API_SECRET", None)
     if not secret:
-        return jsonify({"status" : "error", "error" : "API secret is not set! API disabled!"})
+        return JsonErrorResponse("API secret is not set! API disabled!")
     packages = []
     for package in Package.objects.all():
         packages.append({
@@ -59,12 +63,12 @@ def api_get_packages(request):
             "url" : "http:" + package.url,
             "downloads" : package.downloads,
         })
-    return jsonify({"packages" : packages})
+    return JsonResponse({"packages" : packages})
 
 def api_update_package_downloads(request):
     secret = getattr(settings, "API_SECRET", None)
     if not secret:
-        return jsonify({"status" : "error", "error" : "API secret is not set! API disabled!"})
+        return JsonErrorResponse("API secret is not set! API disabled!")
     packages = [
         {
             "type" : "deb",
