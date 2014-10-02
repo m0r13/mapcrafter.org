@@ -12,4 +12,5 @@ urlpatterns = patterns('',
     url(r"^downloads$", views.downloads, name="downloads"),
     
     url(r"^api/packages$", views.api_get_packages, name="api_get_packages"),
+    url(r"^api/packages/update_downloads", views.api_update_package_downloads, name="api_update_package_downloads"),
 )

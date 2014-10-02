@@ -1,5 +1,6 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render
+from django.conf import settings
 from mapcrafterweb.models import Package
 import json
 
@@ -44,6 +45,9 @@ def jsonify(data):
     return response
 
 def api_get_packages(request):
+    secret = getattr(settings, "API_SECRET", None)
+    if not secret:
+        return jsonify({"status" : "error", "error" : "API secret is not set! API disabled!"})
     packages = []
     for package in Package.objects.all():
         packages.append({
@@ -55,4 +59,10 @@ def api_get_packages(request):
             "url" : "http:" + package.url,
             "downloads" : package.downloads,
         })
-    return jsonify({"packages" : packages}); 
+    return jsonify({"packages" : packages})
+
+def api_update_package_downloads(request):
+    secret = getattr(settings, "API_SECRET", None)
+    if not secret:
+        return jsonify({"status" : "error", "error" : "API secret is not set! API disabled!"})
+    return jsonify({"secret" : "supersecretsecret", "data" : [{"type" : "deb", "arch" : "32", "version" : "1.5.2", "downloads" : 42}]})
