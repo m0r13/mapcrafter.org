@@ -38,7 +38,12 @@ def downloads(request):
     context["group_win"] = get_packages()
     return render(request, "downloads.html", context)
 
-def downloads_json(request):
+def jsonify(data):
+    response = HttpResponse(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
+    response["Content-Type"] = "application/json"
+    return response
+
+def api_get_packages(request):
     packages = []
     for package in Package.objects.all():
         packages.append({
@@ -50,6 +55,4 @@ def downloads_json(request):
             "url" : "http:" + package.url,
             "downloads" : package.downloads,
         })
-    response = HttpResponse(json.dumps(packages, sort_keys=True, indent=4, separators=(",", ": ")))
-    response["Content-Type"] = "application/json"
-    return response
+    return jsonify({"packages" : packages}); 

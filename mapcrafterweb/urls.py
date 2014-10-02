@@ -10,5 +10,6 @@ urlpatterns = patterns('',
     url(r"^(|index.html)$", RedirectView.as_view(url="index")),
     url(r"^index$", views.index, name="index"),
     url(r"^downloads$", views.downloads, name="downloads"),
-    url(r"^downloads\.json$", views.downloads_json, name="downloads_json"),
+    
+    url(r"^api/packages$", views.api_get_packages, name="api_get_packages"),
 )
