@@ -29,10 +29,10 @@
     <tr>
       <th>Version</th>
       <th>Build date</th>
-      <th>Download</th>
       <th>Type</th>
       <th>Arch</th>
       <th class="col-downloads">Downloads</th>
+      <th>Download</th>
     </tr>
     {% for group in group_win %}
     {% for package in group.packages %}
@@ -41,10 +41,10 @@
       <th rowspan="{{ group.packages|length }}" style="vertical-align: middle">{{ group.version }}</th>
       {% endif %}
       <td>{{ package.date }}</td>
-      <td><a href="{{ package.url }}">{{ package.filename }}</a></td>
       <td>{{ package.type.verbose_name }}</td>
       <td>{{ package.arch_name }}</td>
       <td class="col-downloads">{{ package.downloads }}</td>
+      <td><a href="{{ package.url }}">{{ package.filename }}</a></td>
     </tr>
     {% endfor %}
     {% endfor %}
