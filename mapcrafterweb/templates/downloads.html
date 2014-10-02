@@ -3,6 +3,11 @@
 
 {% block content %}
 
+<style type="text/css">
+.col-downloads {
+  display: none !important;
+}
+</style>
 <div class="container">
   <div class="page-header">
     <h1>Downloads</h1>
@@ -27,6 +32,7 @@
       <th>Download</th>
       <th>Type</th>
       <th>Arch</th>
+      <th class="col-downloads">Downloads</th>
     </tr>
     {% for group in group_win %}
     {% for package in group.packages %}
@@ -38,6 +44,7 @@
       <td><a href="{{ package.url }}">{{ package.filename }}</a></td>
       <td>{{ package.type.verbose_name }}</td>
       <td>{{ package.arch_name }}</td>
+      <td class="col-downloads">{{ package.downloads }}</td>
     </tr>
     {% endfor %}
     {% endfor %}
