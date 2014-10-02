@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.conf import settings
 from mapcrafterweb.models import Package, PackageType
 import json
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -65,19 +66,30 @@ def api_get_packages(request):
         })
     return JsonResponse({"packages" : packages})
 
+@csrf_exempt
 def api_update_package_downloads(request):
     secret = getattr(settings, "API_SECRET", None)
     if not secret:
         return JsonErrorResponse("API secret is not set! API disabled!")
-    packages = [
-        {
-            "type" : "deb",
-            "arch" : "64",
-            "version" : "1.5.2",
-            "downloads" : 42,
-        }
-    ]
-    for package in packages:
+    if request.method != "POST":
+        return JsonErrorResponse("Invalid request method! Must be post!")
+    data = {}
+    try:
+        data = json.loads(request.body)
+    except ValueError, e:
+        return JsonErrorResponse("Unable to parse json data!")
+    if data.get("secret") != secret:
+        return JsonErrorResponse("Invalid secret!")
+    #packages = [
+    #    {
+    #        "type" : "deb",
+    #        "arch" : "64",
+    #        "version" : "1.5.2",
+    #        "downloads" : 42,
+    #    }
+    #]
+    updated = 0
+    for package in data.get("packages", []):
         package_type = None
         try:
             package_type = PackageType.objects.get(name=package.get("type", ""))
@@ -96,8 +108,9 @@ def api_update_package_downloads(request):
             try:
                 p.downloads = int(package.get("downloads", 0))
                 p.save()
+                updated += 1
             except ValueError:
                 continue
         except Package.DoesNotExist:
             continue
-    return JsonResponse({"secret" : "supersecretsecret", "data" : [{"type" : "deb", "arch" : "32", "version" : "1.5.2", "downloads" : 42}]})
+    return JsonResponse({"status" : "success", "message" : "Updated %d packages." % updated})
