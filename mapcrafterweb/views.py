@@ -1,7 +1,7 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.conf import settings
-from mapcrafterweb.models import Package
+from mapcrafterweb.models import Package, PackageType
 import json
 
 # Create your views here.
@@ -65,4 +65,35 @@ def api_update_package_downloads(request):
     secret = getattr(settings, "API_SECRET", None)
     if not secret:
         return jsonify({"status" : "error", "error" : "API secret is not set! API disabled!"})
+    packages = [
+        {
+            "type" : "deb",
+            "arch" : "64",
+            "version" : "1.5.2",
+            "downloads" : 42,
+        }
+    ]
+    for package in packages:
+        package_type = None
+        try:
+            package_type = PackageType.objects.get(name=package.get("type", ""))
+        except PackageType.DoesNotExist:
+            continue
+        p = Package()
+        p.version = package.get("version", "0.0.0")
+        try:
+            p = Package.objects.get(
+                type=package_type, arch=package.get("arch", ""),
+                version_major=p.version_major, version_minor=p.version_minor,
+                version_build=p.version_build, version_commit=p.version_commit
+            )
+            if not "downloads" in package:
+                continue
+            try:
+                p.downloads = int(package.get("downloads", 0))
+                p.save()
+            except ValueError:
+                continue
+        except Package.DoesNotExist:
+            continue
     return jsonify({"secret" : "supersecretsecret", "data" : [{"type" : "deb", "arch" : "32", "version" : "1.5.2", "downloads" : 42}]})
