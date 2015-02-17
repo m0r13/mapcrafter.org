@@ -15,7 +15,7 @@ def get_packages(package_type=None):
     current_version = None
     current_group = dict(packages=[])
     
-    packages = Package.objects.all()
+    packages = Package.objects.filter(visible=True)
     if package_type is not None:
         packages = packages.filter(type=package_type)
     for package in packages:
@@ -36,7 +36,7 @@ def get_packages(package_type=None):
 
 def downloads(request):
     context = {}
-    context["packages"] = Package.objects.all()
+    context["packages"] = Package.objects.filter(visible=True)
     context["group_win"] = get_packages()
     return render(request, "downloads.html", context)
 
@@ -54,7 +54,7 @@ def api_get_packages(request):
     if not secret:
         return JsonErrorResponse("API secret is not set! API disabled!")
     packages = []
-    for package in Package.objects.all():
+    for package in Package.objects.filter(visible=True):
         packages.append({
             "type" : package.type.name,
             "arch" : package.arch,

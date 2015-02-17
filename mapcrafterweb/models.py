@@ -1,5 +1,5 @@
 from django.db.models.base import Model
-from django.db.models.fields import CharField, DateTimeField, IntegerField
+from django.db.models.fields import CharField, DateTimeField, IntegerField, BooleanField
 from django.utils import timezone
 from django.db.models.fields.related import ForeignKey
 import re
@@ -42,6 +42,7 @@ class Package(Model):
     version_commit = IntegerField(verbose_name="version commit")
     url = CharField(max_length=255, verbose_name="url")
     downloads = IntegerField(verbose_name="downloads")
+    visible = BooleanField(default=True, verbose_name="visible")
     
     @property
     def arch_name(self):
