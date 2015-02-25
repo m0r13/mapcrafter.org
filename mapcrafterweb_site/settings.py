@@ -26,7 +26,6 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = (
@@ -36,8 +35,16 @@ INSTALLED_APPS = (
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
+    "django_comments",
     "mapcrafterweb",
+    "mptt",
+    "tagging",
+    "zinnia_bootstrap",
+    "zinnia",
 )
+
+SITE_ID = 1
 
 MIDDLEWARE_CLASSES = (
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -47,6 +54,26 @@ MIDDLEWARE_CLASSES = (
     "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
+
+    "django.core.context_processors.request",
+    "zinnia.context_processors.version",
+)
+
+TEMPLATE_LOADERS = (
+    "django.template.loaders.filesystem.Loader",
+    "django.template.loaders.app_directories.Loader",
+    "app_namespace.Loader",
+    "django.template.loaders.eggs.Loader",
 )
 
 ROOT_URLCONF = "mapcrafterweb_site.urls"
