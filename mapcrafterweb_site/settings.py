@@ -37,9 +37,9 @@ INSTALLED_APPS = (
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django_comments",
-    "mapcrafterweb",
     "mptt",
     "tagging",
+    "mapcrafterweb",
     "zinnia_bootstrap",
     "zinnia",
 )
