@@ -36,6 +36,21 @@
     <link rel="apple-touch-icon-precomposed" href="{% static "zinnia_bootstrap/assets/ico/apple-touch-icon-57-precomposed.png" %}" />
     {% block link %}{% endblock link %}
     {% block script %}{% endblock script %}
+    <!-- Piwik -->
+    <script type="text/javascript">
+      var _paq = _paq || [];
+      _paq.push(["trackPageView"]);
+      _paq.push(["enableLinkTracking"]);
+
+      (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://piwik.yellow-ray.de/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "3"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <!-- End Piwik Code -->
   </head>
   <body class="zinnia {% block body-class %}{% endblock body-class %}">
     <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
@@ -48,13 +63,17 @@
             <span class="icon-bar"></span>
           </button>
           <!--<img src="{% static "zinnia_bootstrap/img/zinnia.png" %}" class="pull-left" alt="Zinnia's Weblog" />-->
-          <a href="{% url 'zinnia:entry_archive_index' %}" title="Zinnia's Welog" class="navbar-brand" rel="home">
-            Mapcrafter's Blog
+          <a href="{% url 'mapcrafterweb:index' %}" title="Zinnia's Welog" class="navbar-brand" rel="home">
+            Mapcrafter
           </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
-          <!--<ul class="nav navbar-nav navbar-left">
-            {% url 'zinnia:category_list' as category_list_url %}
+          <ul class="nav navbar-nav"> <!-- navbar-left -->
+            <li><a href="{% url 'zinnia:entry_archive_index' %}">Blog</a>
+            <li><a href="http://docs.mapcrafter.org">Documentation</a></li>
+            <li><a href="{% url 'mapcrafterweb:downloads' %}">Downloads</a></li>
+            <li><a href="https://github.com/mapcrafter/mapcrafter">GitHub</a></li>
+            <!--{% url 'zinnia:category_list' as category_list_url %}
             <li {% if category_list_url in request.path %}class="active"{% endif %}>
               <a href="{{ category_list_url }}" title="{% trans "Category list" %}">
                 {% trans "Categories" %}
@@ -72,9 +91,9 @@
                 {% trans "Tags" %}
               </a>
             </li>
-            <li class="divider-vertical"></li>
+            <li class="divider-vertical"></li>-->
           </ul>
-          <form method="get" action="{% url 'zinnia:entry_search' %}" class="navbar-form navbar-left">
+          <!--<form method="get" action="{% url 'zinnia:entry_search' %}" class="navbar-form navbar-left">
             <div class="form-group">
               <input type="text" class="search-query form-control" placeholder="{% trans 'Search' %}" name="pattern" value="{{ pattern }}" />
             </div>
