@@ -87,6 +87,10 @@ class Package(Model):
     url = CharField(max_length=255, verbose_name="url")
     downloads = IntegerField(default=0, verbose_name="downloads")
     visible = BooleanField(default=True, verbose_name="visible")
+
+    @property
+    def multi_key(self):
+        return self.channel, self.type, self.arch, self.version
     
     @property
     def arch_name(self):

@@ -30,12 +30,9 @@ if __name__ == "__main__":
     
     dist_dir = sys.argv[1]
     
-    #type_win, _ = PackageType.objects.get_or_create(name="win")
-    #type_deb, _ = PackageType.objects.get_or_create(name="deb")
-    #packages = {}
-
     files = glob.glob(os.path.join(dist_dir, "packages/*/*/*/*.deb"))
     files += glob.glob(os.path.join(dist_dir, "windows/*/*.zip"))
+    packages = set()
     for path in files:
         package = Package()
         package.date = timestamp_to_datetime(os.stat(path).st_mtime)
@@ -68,15 +65,14 @@ if __name__ == "__main__":
             p.url = package.url
             p.save()
             print "Already have package: %s" % package
+            packages.add(p.multi_key)
         except Package.DoesNotExist:
             print "New package: %s" % package
             package.save()
-
-    sys.exit(0)
+            packages.add(p.multi_key)
 
     for package in Package.objects.all():
-        type_arch_version = package.type, package.arch, package.version
-        if not type_arch_version in packages:
+        if not package.multi_key in packages:
             print "Removed package: %s" % package
             package.delete()
 
