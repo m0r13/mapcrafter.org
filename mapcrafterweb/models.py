@@ -10,6 +10,8 @@ class PackageType(Model):
     class Meta:
         verbose_name = "package type"
         verbose_name_plural = "package types"
+
+        ordering = ["name"]
     
     name = CharField(max_length=255, verbose_name="name")
     verbose_name = CharField(max_length=255, verbose_name="verbose name")
@@ -39,6 +41,8 @@ class BuildChannel(Model):
     class Meta:
         verbose_name = "build channel"
         verbose_name_plural = "build channels"
+
+        ordering = ["name"]
 
     name = CharField(max_length=255, verbose_name="name")
     verbose_name = CharField(max_length=255, verbose_name="verbose name")
