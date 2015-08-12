@@ -9,5 +9,6 @@ urlpatterns = patterns('',
 
     url(r"^(|index.html)$", RedirectView.as_view(url="index")),
     url(r"^index$", views.index, name="index"),
-    url(r"^downloads$", views.downloads, name="downloads"),
+    url(r"^downloads(?:/(?P<channel>main|nightly))?$", views.downloads, name="downloads"),
+    url(r"^downloads\.json$", views.downloads_json, name="downloads.json")
 )

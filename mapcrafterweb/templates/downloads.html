@@ -25,6 +25,15 @@
     directly.
   </p>
   <div style="height: 20px"></div>
+  <p style="text-align: center">
+  {% for channel in channels %}
+    {% if channel.1 %}
+      <b>{{ channel.0.verbose_name }}</b>
+    {% else %}
+    <a href='{% url 'mapcrafterweb:downloads' channel.0.name %}'>{{ channel.0.verbose_name }}</a>
+    {% endif %}
+  {% endfor %}
+  </p>
   <table class="table">
     <tr>
       <th>Version</th>
@@ -34,7 +43,7 @@
       <th class="col-downloads">Downloads</th>
       <th>Download</th>
     </tr>
-    {% for group in group_win %}
+    {% for group in package_groups %}
     {% for package in group.packages %}
     <tr>
       {% if forloop.first %}

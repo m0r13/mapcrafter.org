@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.db.models.fields.related import ForeignKey
 import re
 
-REGEX_VERSION = re.compile("(?P<major>\d)\.(?P<minor>\d)(\.(?P<build>\d))?(-(?P<commit>\d+))?")
+REGEX_VERSION = re.compile("(?P<major>\d)\.(?P<minor>\d)(\.(?P<build>\d))?(~(?P<commit>\d+))?(~(?P<githash>[a-z0-9]+))?")
 
 class PackageType(Model):
     class Meta:
@@ -13,16 +13,54 @@ class PackageType(Model):
     
     name = CharField(max_length=255, verbose_name="name")
     verbose_name = CharField(max_length=255, verbose_name="verbose name")
-    
+
+    @staticmethod
+    def get_win_type():
+        package_type, created = PackageType.objects.get_or_create(name="win")
+        if created:
+            package_type.verbose_name = "Windows Package"
+            package_type.save()
+        return package_type
+
+    @staticmethod
+    def get_deb_type(distro, release):
+        name = "deb_%s_%s" % (distro, release)
+        package_type, created = PackageType.objects.get_or_create(name=name)
+        if created:
+            verbose_name = ("%s package (%s)" % (distro, release)).title()
+            package_type.verbose_name = verbose_name
+            package_type.save()
+        return package_type
+
     def __unicode__(self):
-        return self.name
+        return self.verbose_name
+
+class BuildChannel(Model):
+    class Meta:
+        verbose_name = "build channel"
+        verbose_name_plural = "build channels"
+
+    name = CharField(max_length=255, verbose_name="name")
+    verbose_name = CharField(max_length=255, verbose_name="verbose name")
+
+    @staticmethod
+    def get_channel(channel):
+        channel, created = BuildChannel.objects.get_or_create(name=channel)
+        if created:
+            channel.verbose_name = channel.name.title()
+            channel.save()
+        return channel
+
+    def __unicode__(self):
+        return self.verbose_name
 
 class Package(Model):
     class Meta:
         verbose_name = "package"
         verbose_name_plural = "packages"
         
-        ordering = ["-version_major", "-version_minor", "-version_build", "-version_commit", "-type", "-arch"]
+        ordering = ["-version_major", "-version_minor", "-version_build", "-version_commit", "-type", "-arch", "-channel"]
+        unique_together = (("type", "arch", "version_major", "version_minor", "version_build", "version_commit", "version_githash"))
     
     ARCH_32_BIT = "32"
     ARCH_64_BIT = "64"
@@ -31,17 +69,19 @@ class Package(Model):
         (ARCH_64_BIT, "64 Bit"),
     )
     
+    channel = ForeignKey(BuildChannel, null=True, default=None, verbose_name="build channel")
     type = ForeignKey(PackageType, verbose_name="type")
     arch = CharField(choices=ARCHS, max_length=255, verbose_name="architecture")
     date = DateTimeField(default=timezone.now, verbose_name="date")
     # version of built package
-    # for example version 1.5.1-2: major=1, minor=5, build=1, commit=2
+    # for example version 1.5.1~2~abcdef12: major=1, minor=5, build=1, commit=2, githash=abcdef12
     version_major = IntegerField(verbose_name="version major")
     version_minor = IntegerField(verbose_name="version minor")
-    version_build = IntegerField(verbose_name="version build")
-    version_commit = IntegerField(verbose_name="version commit")
+    version_build = IntegerField(default=0, verbose_name="version build")
+    version_commit = IntegerField(default=0, verbose_name="version commit")
+    version_githash = CharField(max_length=255, default="", verbose_name="version githash")
     url = CharField(max_length=255, verbose_name="url")
-    downloads = IntegerField(verbose_name="downloads")
+    downloads = IntegerField(default=0, verbose_name="downloads")
     visible = BooleanField(default=True, verbose_name="visible")
     
     @property
@@ -57,7 +97,9 @@ class Package(Model):
         if self.version_build != 0:
             version += ".%s" % self.version_build
         if self.version_commit != 0:
-            version += "-%d" % self.version_commit 
+            version += "~%d" % self.version_commit 
+        if self.version_githash:
+            version += "~%s" % self.version_githash
         return version
     
     def set_version(self, value):
@@ -74,8 +116,19 @@ class Package(Model):
             self.version_commit = int(match.group("commit"))
         else:
             self.version_commit = 0
+        if match.group("githash"):
+            self.version_githash = match.group("githash")
+        else:
+            self.version_githash = ""
     
     version = property(get_version, set_version)
+
+    @property
+    def gitname(self):
+        if self.version_githash:
+            return self.version_githash
+        # TODO
+        return "nope"
     
     @property
     def filename(self):
@@ -84,4 +137,4 @@ class Package(Model):
         return self.url.split("/")[-1]
     
     def __unicode__(self):
-        return "Build v.%s %s%s" % (self.version, self.type, self.arch)
+        return "%s @ %s %s %s" % (self.version, self.channel, self.type, self.arch)
