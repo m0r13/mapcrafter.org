@@ -61,9 +61,10 @@ if __name__ == "__main__":
                 channel=package.channel, type=package.type, arch=package.arch,
                 version_major=package.version_major, version_minor=package.version_minor,
                 version_build=package.version_build, version_commit=package.version_commit)
-            p.date = package.date
-            p.url = package.url
-            p.save()
+            if (p.date, p.url) != (package.date, package.url):
+                p.date = package.date
+                p.url = package.url
+                p.save()
             print "Already have package: %s" % package
             packages.add(p.multi_key)
         except Package.DoesNotExist:
