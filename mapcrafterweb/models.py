@@ -90,7 +90,7 @@ class Package(Model):
 
     @property
     def multi_key(self):
-        return self.channel, self.type, self.arch, self.version
+        return self.channel.name, self.type.name, self.arch, self.version
     
     @property
     def arch_name(self):
