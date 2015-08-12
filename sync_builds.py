@@ -69,7 +69,7 @@ if __name__ == "__main__":
         except Package.DoesNotExist:
             print "New package: %s" % package
             package.save()
-            packages.add(p.multi_key)
+            packages.add(package.multi_key)
 
     for package in Package.objects.all():
         if not package.multi_key in packages:
