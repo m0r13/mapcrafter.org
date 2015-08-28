@@ -8,6 +8,11 @@
   display: none !important;
 }
 </style>
+<script type="text/javascript">
+function debOnClick() {
+    return confirm("Do you really want to download this Debian/Ubuntu package directly? Using the Debian/Ubuntu package repo is the preferred way.");
+}
+</script>
 <div class="container">
   <div class="page-header">
     <h1>Downloads</h1>
@@ -20,8 +25,8 @@
     before downloading any packages.
   </p>
   <p>
-    If you are going to use a Debian package, please consider using the
-    <a href="http://docs.mapcrafter.org/builds/stable/installation.html#debian-packages">Debian package repository</a>
+    If you are going to use a Debian/Ubuntu package, please consider using the
+    <a href="http://docs.mapcrafter.org/builds/stable/installation.html#debian-packages">Debian/Ubuntu package repository</a>
     directly.
   </p>
   <div style="height: 20px"></div>
@@ -53,7 +58,7 @@
       <td>{{ package.type.verbose_name }}</td>
       <td>{{ package.arch_name }}</td>
       <td class="col-downloads">{{ package.downloads }}</td>
-      <td><a href="{{ package.url }}">{{ package.filename }}</a></td>
+      <td><a href="{{ package.url }}" {% if package.type.name|slice:":3" == "deb" %} onclick="return debOnClick()" {% endif %}>{{ package.filename }}</a></td>
     </tr>
     {% endfor %}
     {% endfor %}
