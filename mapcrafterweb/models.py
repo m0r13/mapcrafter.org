@@ -64,7 +64,7 @@ class Package(Model):
         verbose_name_plural = "packages"
         
         ordering = ["-version_major", "-version_minor", "-version_build", "-version_commit", "-type", "-arch", "-channel"]
-        unique_together = (("type", "arch", "version_major", "version_minor", "version_build", "version_commit", "version_githash"))
+        unique_together = (("channel", "type", "arch", "version_major", "version_minor", "version_build", "version_commit", "version_githash"))
     
     ARCH_32_BIT = "32"
     ARCH_64_BIT = "64"
