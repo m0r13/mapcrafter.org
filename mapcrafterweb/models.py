@@ -73,7 +73,7 @@ class Package(Model):
         (ARCH_64_BIT, "64 Bit"),
     )
     
-    channel = ForeignKey(BuildChannel, null=True, default=None, verbose_name="build channel")
+    channel = ForeignKey(BuildChannel, verbose_name="build channel")
     type = ForeignKey(PackageType, verbose_name="type")
     arch = CharField(choices=ARCHS, max_length=255, verbose_name="architecture")
     date = DateTimeField(default=timezone.now, verbose_name="date")
