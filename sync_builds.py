@@ -60,7 +60,7 @@ if __name__ == "__main__":
             p = Package.objects.get(
                 channel=package.channel, type=package.type, arch=package.arch,
                 version_major=package.version_major, version_minor=package.version_minor,
-                version_build=package.version_build, version_commit=package.version_commit)
+                version_build=package.version_build, version_commit=package.version_commit, version_githash=package.version_githash)
             if (p.date, p.url) != (package.date, package.url):
                 p.date = package.date
                 p.url = package.url
