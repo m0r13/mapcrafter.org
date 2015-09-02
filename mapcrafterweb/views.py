@@ -21,9 +21,9 @@ def get_packages(channel):
         version = package.version
         if current_version is None:
             current_version = version
-        if package.type not in types:
+        if (package.type, package.arch) not in types:
             package.first = True
-            types.add(package.type)
+            types.add((package.type, package.arch))
         if current_version == version:
             current_group["packages"].append(package)
         else:
