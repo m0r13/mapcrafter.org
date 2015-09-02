@@ -39,6 +39,9 @@ function debOnClick() {
     {% endif %}
   {% endfor %}
   </p>
+  <p>
+    <b>(Newest packages on top)</b>
+  </p>
   <table class="table">
     <tr>
       <th>Version</th>
@@ -58,7 +61,13 @@ function debOnClick() {
       <td>{{ package.type.verbose_name }}</td>
       <td>{{ package.arch_name }}</td>
       <td class="col-downloads">{{ package.downloads }}</td>
-      <td><a href="{{ package.url }}" {% if package.type.name|slice:":3" == "deb" %} onclick="return debOnClick()" {% endif %}>{{ package.filename }}</a></td>
+      <td>
+        <a href="{{ package.url }}" {% if package.type.name|slice:":3" == "deb" %} onclick="return debOnClick()" {% endif %}>
+          {% if package.first %}<b>{% endif %}
+          {{ package.filename }}
+          {% if package.first %}</b>{% endif %}
+        </a>
+      </td>
     </tr>
     {% endfor %}
     {% endfor %}

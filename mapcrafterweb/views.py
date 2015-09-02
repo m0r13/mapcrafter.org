@@ -11,6 +11,7 @@ def index(request):
     return render(request, "index.html")
 
 def get_packages(channel):
+    types = set()
     groups = []
     current_version = None
     current_group = dict(packages=[])
@@ -20,6 +21,9 @@ def get_packages(channel):
         version = package.version
         if current_version is None:
             current_version = version
+        if package.type not in types:
+            package.first = True
+            types.add(package.type)
         if current_version == version:
             current_group["packages"].append(package)
         else:
