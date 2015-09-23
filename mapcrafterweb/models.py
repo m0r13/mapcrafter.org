@@ -85,7 +85,8 @@ class Package(Model):
     version_commit = IntegerField(default=0, verbose_name="version commit")
     version_githash = CharField(max_length=255, default="", verbose_name="version githash")
     url = CharField(max_length=255, verbose_name="url")
-    downloads = IntegerField(default=0, verbose_name="downloads")
+    downloads_packages = IntegerField(default=0, verbose_name="downloads packages")
+    downloads_total = IntegerField(default=0, verbose_name="downloads total")
     visible = BooleanField(default=True, verbose_name="visible")
 
     @property
