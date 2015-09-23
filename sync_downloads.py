@@ -44,6 +44,6 @@ if __name__ == "__main__":
             package.downloads_total += count
             package.save()
 
-            print search_path, count
+            print url, count
         print ""
 
