@@ -29,11 +29,15 @@ def get_packages(channel):
         else:
             current_group["version"] = current_version
             current_group["gitname"] = package.gitname
+            current_group["downloads_packages"] = 0
+            current_group["downloads_total"] = 0
             groups.append(current_group)
             current_version = version
             current_group = dict(packages=[package])
     if current_version is not None:
         current_group["version"] = current_version
+        current_group["downloads_packages"] = 0
+        current_group["downloads_total"] = 0
         groups.append(current_group)
     return groups
 

@@ -50,6 +50,10 @@ function debOnClick() {
       <th>Arch</th>
       <th class="col-downloads">Downloads</th>
       <th>Download</th>
+      {% if request.user %}
+      <th></th>
+      <th></th>
+      {% endif %}
     </tr>
     {% for group in package_groups %}
     {% for package in group.packages %}
@@ -68,6 +72,16 @@ function debOnClick() {
           {% if package.first %}</b>{% endif %}
         </a>
       </td>
+      {% if request.user %}
+      <td>
+          {{ package.downloads_packages }} / {{ package.downloads_packages }}
+      </td>
+      {% if forloop.first %}
+      <td rowspan="{{ group.packages|length }}" style="vertical-align: middle">
+        {{ group.downloads_packages }} / {{ group.downloads_total }}
+      </td>
+      {% endif %}
+      {% endif %}
     </tr>
     {% endfor %}
     {% endfor %}
