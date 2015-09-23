@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 
 import os
 import sys
@@ -12,7 +12,7 @@ django.setup()
 from mapcrafterweb.models import Package
 
 def read_json(filename):
-    data = json.loads(open(filename, errors="ignore").read())
+    data = json.loads(open(filename).read().decode("ascii", "ignore"))
 
     files = {}
     for request in data["requests"]:
@@ -25,7 +25,7 @@ def read_json(filename):
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print("Usage: %s [goaccess-json] [goaccess-packages-json]" % sys.argv[0])
+        print "Usage: %s [goaccess-json] [goaccess-packages-json]" % sys.argv[0]
         sys.exit(1)
 
     Package.objects.all().update(downloads_packages=0, downloads_total=0)
@@ -44,6 +44,6 @@ if __name__ == "__main__":
             package.downloads_total += count
             package.save()
 
-            print(search_path, count)
-        print()
+            print search_path, count
+        print ""
 
