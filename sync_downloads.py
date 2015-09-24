@@ -33,6 +33,9 @@ if __name__ == "__main__":
     for i in range(1, 3):
         files = read_json(sys.argv[i])
         for path, count in files.items():
+            if i == 2:
+                path = "/packages" + path
+                path = path.replace("pool/", "").replace("/m/mapcrafter/", "/")
             url = "//mapcrafter.org" + path
             package = None
             try:
@@ -40,7 +43,9 @@ if __name__ == "__main__":
             except Package.DoesNotExist:
                 continue
 
-            package.downloads_packages += count
+            # path from debian repo stats or is a win package
+            if i == 2 or path.startswith("/windows"):
+                package.downloads_packages += count
             package.downloads_total += count
             package.save()
 
