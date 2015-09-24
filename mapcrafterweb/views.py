@@ -10,6 +10,14 @@ from mapcrafterweb.models import Package, BuildChannel
 def index(request):
     return render(request, "index.html")
 
+def update_download_stats(group):
+    packages, total = 0, 0
+    for package in group["packages"]:
+        packages += package.downloads_packages
+        total += package.downloads_total
+    group["downloads_packages"] = packages
+    group["downloads_total"] = total
+
 def get_packages(channel):
     types = set()
     groups = []
@@ -29,15 +37,13 @@ def get_packages(channel):
         else:
             current_group["version"] = current_version
             current_group["gitname"] = package.gitname
-            current_group["downloads_packages"] = 0
-            current_group["downloads_total"] = 0
+            update_download_stats(current_group)
             groups.append(current_group)
             current_version = version
             current_group = dict(packages=[package])
     if current_version is not None:
         current_group["version"] = current_version
-        current_group["downloads_packages"] = 0
-        current_group["downloads_total"] = 0
+        update_download_stats(current_group)
         groups.append(current_group)
     return groups
 
