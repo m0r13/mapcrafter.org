@@ -50,9 +50,8 @@ function debOnClick() {
       <th>Arch</th>
       <th class="col-downloads">Downloads</th>
       <th>Download</th>
-      {% if request.user %}
-      <th></th>
-      <th></th>
+      {% if request.user.is_authenticated %}
+      <th colspan="2">Downloads</th>
       {% endif %}
     </tr>
     {% for group in package_groups %}
@@ -72,7 +71,7 @@ function debOnClick() {
           {% if package.first %}</b>{% endif %}
         </a>
       </td>
-      {% if request.user %}
+      {% if request.user.is_authenticated %}
       <td>
           {{ package.downloads_packages }} / {{ package.downloads_total }}
       </td>
