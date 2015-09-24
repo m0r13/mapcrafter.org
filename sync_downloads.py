@@ -43,11 +43,13 @@ if __name__ == "__main__":
             except Package.DoesNotExist:
                 continue
 
+            old = (package.downloads_packages, package.downloads_total)
             # path from debian repo stats or is a win package
             if i == 2 or path.startswith("/windows"):
                 package.downloads_packages += count
             package.downloads_total += count
-            package.save()
+            if (package.downloads_packages, package.downloads_total) != old:
+                package.save()
 
             print url, count
         print ""
