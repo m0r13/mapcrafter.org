@@ -74,7 +74,7 @@ function debOnClick() {
       </td>
       {% if request.user %}
       <td>
-          {{ package.downloads_packages }} / {{ package.downloads_packages }}
+          {{ package.downloads_packages }} / {{ package.downloads_total }}
       </td>
       {% if forloop.first %}
       <td rowspan="{{ group.packages|length }}" style="vertical-align: middle">
