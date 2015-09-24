@@ -3,11 +3,6 @@
 
 {% block content %}
 
-<style type="text/css">
-.col-downloads {
-  display: none !important;
-}
-</style>
 <script type="text/javascript">
 function debOnClick() {
     return confirm("Do you really want to download this Debian/Ubuntu package directly? Using the Debian/Ubuntu package repo is the preferred way.");
@@ -48,7 +43,6 @@ function debOnClick() {
       <th>Build date</th>
       <th>Type</th>
       <th>Arch</th>
-      <th class="col-downloads">Downloads</th>
       <th>Download</th>
       {% if request.user.is_authenticated %}
       <th colspan="2">Downloads</th>
@@ -63,7 +57,6 @@ function debOnClick() {
       <td>{{ package.date }}</td>
       <td>{{ package.type.verbose_name }}</td>
       <td>{{ package.arch_name }}</td>
-      <td class="col-downloads">{{ package.downloads }}</td>
       <td>
         <a href="{{ package.url }}" {% if package.type.name|slice:":3" == "deb" %} onclick="return debOnClick()" {% endif %}>
           {% if package.first %}<b>{% endif %}
