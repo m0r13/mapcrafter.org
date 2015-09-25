@@ -4,11 +4,12 @@ from django.http.response import HttpResponse
 from django.shortcuts import render
 
 from mapcrafterweb.models import Package, BuildChannel
-
+from zinnia.models.entry import Entry
 
 # Create your views here.
 def index(request):
-    return render(request, "index.html")
+    entries = Entry.objects.all()[:3]
+    return render(request, "index.html", {"entries" : entries})
 
 def update_download_stats(group):
     packages, total = 0, 0

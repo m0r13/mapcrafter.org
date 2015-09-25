@@ -35,6 +35,16 @@ footer ul li {
 
 <div class="container">
   <div class="row">
+    {% for entry in entries %}
+    <div class="col-lg-4">
+      {% if forloop.first %}
+      <h3>News</h3>
+      {% endif %}
+      <h4>{{ entry.title }}</h4>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="row">
     <div class="col-lg-4">
       <h3>GitHub</h3>
       <p>Access the source code, report new issues and comment on them.</p>
