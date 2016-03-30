@@ -41,10 +41,14 @@ footer ul li {
   </div>
   <div class="row">
     {% for entry in entries %}
-    <div class="col-lg-4">
-      <h4><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h4>
+    <div class="col-lg-3">
+      <h4 style="text-align: center"><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h4>
+      <div style="text-align: center">{{ entry.publication_date }}</div>
     </div>
     {% endfor %}
+    <div class="col-lg-3">
+      <h4><a href="/blog">Moar News</a> > </a></h4>
+    </div>
   </div>
   <div class="row">
     <div class="col-lg-4">
