@@ -5,6 +5,8 @@ import glob
 import os
 import pytz
 import sys
+import time
+import random
 import re
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mapcrafterweb_site.settings_dev")
@@ -23,13 +25,31 @@ def timestamp_to_datetime(timestamp):
     utc_dt = datetime.datetime.utcfromtimestamp(timestamp).replace(tzinfo=pytz.utc)
     return local_tz.normalize(utc_dt.astimezone(local_tz))
 
+LOCK_FILE = "/tmp/sync_builds_lock"
+
+def obtain_lock():
+    i = 0
+    # wait for lock released. if it's not released after a specific time,
+    # the last program probably crashed and didn't release the lock. so run it then anyways
+    while os.path.exists(LOCK_FILE) and i < 10:
+        # at least try to prevent locking the file at the same time
+        time.sleep(random.random() * 2.0)
+        i += 1
+    f = open(LOCK_FILE, "w")
+    f.close()
+
+def release_lock():
+    os.path.remove(LOCK_FILE)
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print "Usage: %s [dist_dir]" % sys.argv[0]
         sys.exit(1)
-    
+
+    obtain_lock()
+
     dist_dir = sys.argv[1]
-    
+
     files = glob.glob(os.path.join(dist_dir, "packages/*/*/*/*.deb"))
     files += glob.glob(os.path.join(dist_dir, "windows/*/*.zip"))
     packages = set()
@@ -76,4 +96,6 @@ if __name__ == "__main__":
         if not package.multi_key in packages:
             print "Removed package: %s" % package
             package.delete()
+
+    release_lock()
 
