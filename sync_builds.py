@@ -39,7 +39,7 @@ def obtain_lock():
     f.close()
 
 def release_lock():
-    os.path.remove(LOCK_FILE)
+    os.remove(LOCK_FILE)
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
