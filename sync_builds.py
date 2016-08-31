@@ -12,6 +12,7 @@ import re
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mapcrafterweb_site.settings_dev")
 import django
 from django.utils import timezone
+from django.db.utils import IntegrityError
 django.setup()
 
 from mapcrafterweb.models import Package, PackageType, BuildChannel
@@ -89,7 +90,11 @@ if __name__ == "__main__":
             packages.add(p.multi_key)
         except Package.DoesNotExist:
             print "New package: %s" % package
-            package.save()
+            try:
+                package.save()
+            except IntegrityError:
+                print Package.objects.filter(channel=package.channel, type=package.type, arch=package.arch, version_major=package.version_major, version_minor=package.version_minor, version_build=package.version_build, version_commit=package.version_commit, version_githash=package.version_githash)
+                raise e
             packages.add(package.multi_key)
 
     for package in Package.objects.all():
